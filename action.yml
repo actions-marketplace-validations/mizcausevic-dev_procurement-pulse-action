@@ -1,0 +1,55 @@
+name: "Procurement Pulse — Self-Score"
+description: "Probes a domain's /.well-known/ paths for all 11 Kinetic Gain Protocol Suite documents and reports a 0-100 disclosure score + tier. Use it to self-score your own /.well-known/ on every PR, gate the score, post a PR comment, or emit a self-score SVG badge for your README."
+author: "mizcausevic-dev"
+branding:
+  icon: "activity"
+  color: "purple"
+
+inputs:
+  domain:
+    description: "Domain to probe — e.g. 'kineticgain.com' or 'https://kineticgain.com'. Use 'auto' to derive from <owner>.github.io / GitHub Pages CNAME. Required."
+    required: true
+  min-score:
+    description: "Fail the run if the score falls below this 0-100 threshold (default '0' = no gate)."
+    required: false
+    default: "0"
+  min-tier:
+    description: "Fail the run if the tier falls below this (default 'none' = no gate). Order: none < minimal < partial < strong < comprehensive."
+    required: false
+    default: "none"
+  timeout-ms:
+    description: "Per-fetch timeout in milliseconds (default '5000')."
+    required: false
+    default: "5000"
+  comment-on-pr:
+    description: "Post the score breakdown as a PR comment. 'auto' (default) posts only on pull_request events."
+    required: false
+    default: "auto"
+  output-path:
+    description: "Optional file destination for the structured ProbeResult JSON (commit it back to publish a pulse receipt)."
+    required: false
+  badge-output:
+    description: "Optional file destination for a Shields.io-style self-score SVG badge (embed in README)."
+    required: false
+  github-token:
+    description: "Token used to post the PR comment (defaults to GITHUB_TOKEN)."
+    required: false
+    default: ${{ github.token }}
+
+outputs:
+  score:
+    description: "0-100 disclosure score (fraction of the 11 Suite documents found)."
+  tier:
+    description: "comprehensive | strong | partial | minimal | none."
+  published-count:
+    description: "Number of Suite documents the domain publishes."
+  missing-count:
+    description: "Number of Suite documents the domain is missing."
+  published:
+    description: "Comma-separated slugs of documents that were found."
+  missing:
+    description: "Comma-separated slugs of documents that were missing."
+
+runs:
+  using: "node20"
+  main: "dist/index.js"
