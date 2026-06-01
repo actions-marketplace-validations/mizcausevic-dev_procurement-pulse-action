@@ -1,5 +1,5 @@
 name: "Procurement Pulse — Self-Score"
-description: "Probes a domain's /.well-known/ paths for all 11 Kinetic Gain Protocol Suite documents and reports a 0-100 disclosure score + tier. Use it to self-score your own /.well-known/ on every PR, gate the score, post a PR comment, or emit a self-score SVG badge for your README."
+description: "Probe your /.well-known/ for all 11 Kinetic Gain Suite docs and get a 0-100 disclosure score + tier."
 author: "mizcausevic-dev"
 branding:
   icon: "activity"
